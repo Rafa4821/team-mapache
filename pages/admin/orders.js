@@ -3,6 +3,7 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import OrderList from '../../components/admin/OrderList';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import { fetchAdminOrders } from '../../lib/api/orders';
 
 const AdminOrdersPage = ({ orders, initialSearch, initialStatus }) => {
   const router = useRouter();
@@ -79,21 +80,16 @@ const AdminOrdersPage = ({ orders, initialSearch, initialStatus }) => {
 
 export async function getServerSideProps(context) {
   const { search = '', status = 'all' } = context.query;
-  const queryParams = new URLSearchParams();
-  if (search) queryParams.append('search', search);
-  if (status && status !== 'all') queryParams.append('status', status);
-
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/admin/get-orders?${queryParams.toString()}`, {
-    headers: {
-      'Authorization': `Bearer ${process.env.ADMIN_SECRET}`
-    }
-  });
 
   let orders = [];
-  if (res.ok) {
-    orders = await res.json();
-  } else {
-    console.error('Failed to fetch orders for admin page', await res.text());
+  try {
+    // Llamamos a la lógica directamente, eliminando la necesidad de una llamada fetch.
+    // Esto es más rápido, más confiable y menos propenso a errores en Vercel.
+    orders = await fetchAdminOrders({ search, status });
+  } catch (error) {
+    console.error('Error fetching admin orders in getServerSideProps:', error);
+    // Devolvemos un array vacío para que la página no se rompa,
+    // el error ya ha sido logueado en el servidor.
   }
 
   return {
