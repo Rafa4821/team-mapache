@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Heading, FormControl, FormLabel, Input, Button, Text, useToast } from '@chakra-ui/react';
+import { Box, Heading, FormControl, FormLabel, Input, Button, useToast } from '@chakra-ui/react';
 import { useAuth } from '../../context/AuthContext';
 
 export default function Auth() {
@@ -7,35 +7,27 @@ export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoginView, setIsLoginView] = useState(true);
   const toast = useToast();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      let error;
-      if (isLoginView) {
-        ({ error } = await supabase.auth.signInWithPassword({ email, password }));
-      } else {
-        ({ error } = await supabase.auth.signUp({ email, password }));
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
 
       if (error) throw error;
 
       toast({
-        title: isLoginView ? '¡Inicio de sesión exitoso!' : '¡Registro exitoso!',
-        description: isLoginView
-          ? 'Bienvenido de nuevo.'
-          : 'Revisa tu correo para verificar tu cuenta.',
+        title: '¡Inicio de sesión exitoso!',
+        description: 'Bienvenido de nuevo.',
         status: 'success',
         duration: 5000,
         isClosable: true,
       });
     } catch (error) {
       toast({
-        title: `Error en ${isLoginView ? 'el inicio de sesión' : 'el registro'}`,
+        title: 'Error en el inicio de sesión',
         description: error.error_description || error.message,
         status: 'error',
         duration: 5000,
@@ -47,11 +39,11 @@ export default function Auth() {
   };
 
   return (
-    <Box maxW="sm" mx="auto" mt={10}>
+    <Box maxW="sm" mx="auto" mt={10} p={8} borderWidth={1} borderRadius="lg" boxShadow="lg">
       <Heading as="h1" size="lg" textAlign="center" mb={6}>
-        {isLoginView ? 'Iniciar Sesión' : 'Crear Cuenta de Administrador'}
+        Acceso de Administrador
       </Heading>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleLogin}>
         <FormControl isRequired>
           <FormLabel>Correo Electrónico</FormLabel>
           <Input
@@ -59,6 +51,7 @@ export default function Auth() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="tu@email.com"
+            autoComplete="email"
           />
         </FormControl>
         <FormControl isRequired mt={4}>
@@ -68,25 +61,20 @@ export default function Auth() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
+            autoComplete="current-password"
           />
         </FormControl>
         <Button
-          mt={4}
+          mt={6}
           colorScheme="red"
           type="submit"
           isLoading={loading}
           width="full"
+          size="lg"
         >
-          {isLoginView ? 'Iniciar Sesión' : 'Registrarse'}
+          Iniciar Sesión
         </Button>
       </form>
-      <Text mt={4} textAlign="center">
-        {isLoginView ? '¿No tienes una cuenta?' : '¿Ya tienes una cuenta?'}{
-' '}
-        <Button variant="link" colorScheme="red" onClick={() => setIsLoginView(!isLoginView)}>
-          {isLoginView ? 'Regístrate' : 'Inicia Sesión'}
-        </Button>
-      </Text>
     </Box>
   );
 }

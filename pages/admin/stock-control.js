@@ -2,6 +2,7 @@ import { Box, Heading } from '@chakra-ui/react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import StockControlList from '../../components/admin/StockControlList';
 import { createClient } from '@supabase/supabase-js';
+import withAdminAuth from '../../components/admin/withAdminAuth';
 
 // This should be the service role client for admin tasks
 const supabaseAdmin = createClient(
@@ -42,4 +43,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default StockControlPage;
+export default withAdminAuth(StockControlPage);

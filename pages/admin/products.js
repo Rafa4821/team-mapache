@@ -1,18 +1,13 @@
-import { useAuth } from '../../context/AuthContext';
 import AdminLayout from '../../components/admin/AdminLayout';
-import Auth from '../../components/admin/Auth';
 import ProductDashboard from '../../components/admin/ProductDashboard';
+import withAdminAuth from '../../components/admin/withAdminAuth';
 
-export default function AdminProductsPage() {
-  const { session } = useAuth();
-
-  if (!session) {
-    return <Auth />;
-  }
-
+const AdminProductsPage = () => {
   return (
     <AdminLayout>
-      <ProductDashboard session={session} />
+      <ProductDashboard />
     </AdminLayout>
   );
-}
+};
+
+export default withAdminAuth(AdminProductsPage);

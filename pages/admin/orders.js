@@ -4,6 +4,7 @@ import OrderList from '../../components/admin/OrderList';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { fetchAdminOrders } from '../../lib/api/orders';
+import withAdminAuth from '../../components/admin/withAdminAuth';
 
 const AdminOrdersPage = ({ orders, initialSearch, initialStatus }) => {
   const router = useRouter();
@@ -101,4 +102,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default AdminOrdersPage;
+export default withAdminAuth(AdminOrdersPage);

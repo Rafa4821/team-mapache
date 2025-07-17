@@ -1,18 +1,19 @@
-import { useAuth } from '../../context/AuthContext';
+import { Box, Heading } from '@chakra-ui/react';
 import AdminLayout from '../../components/admin/AdminLayout';
-import Auth from '../../components/admin/Auth';
 import CategoryManager from '../../components/admin/CategoryManager';
+import withAdminAuth from '../../components/admin/withAdminAuth';
 
-export default function AdminCategoriesPage() {
-  const { session } = useAuth();
-
-  if (!session) {
-    return <Auth />;
-  }
-
+const AdminCategoriesPage = () => {
   return (
     <AdminLayout>
-      <CategoryManager />
+      <Box>
+        <Heading as="h1" size="xl" mb={6}>
+          Gestionar Categorías
+        </Heading>
+        <CategoryManager />
+      </Box>
     </AdminLayout>
   );
-}
+};
+
+export default withAdminAuth(AdminCategoriesPage);

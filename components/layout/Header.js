@@ -10,8 +10,8 @@ const Header = () => {
   const { session, logout } = useAuth();
   const { cartItems } = useCart();
 
-  // Calculate total number of items in the cart
-  const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+  // The badge will show the number of unique items in the cart.
+  const uniqueItemsCount = cartItems.length;
 
   return (
     <>
@@ -40,12 +40,14 @@ const Header = () => {
           <Link as={NextLink} href='/' _hover={{ textDecoration: 'none' }}>
             <Button variant="ghost" fontWeight="bold">Inicio</Button>
           </Link>
-          {session ? (
+          <Link as={NextLink} href='/about' _hover={{ textDecoration: 'none' }}>
+            <Button variant="ghost" fontWeight="bold">Nosotros</Button>
+          </Link>
+          <Link as={NextLink} href='/contact' _hover={{ textDecoration: 'none' }}>
+            <Button variant="ghost" fontWeight="bold">Contacto</Button>
+          </Link>
+          {session && (
             <Button variant="ghost" onClick={logout} fontWeight="bold">Cerrar Sesión</Button>
-          ) : (
-            <Link as={NextLink} href='/admin' _hover={{ textDecoration: 'none' }}>
-              <Button variant="ghost" fontWeight="bold">Admin</Button>
-            </Link>
           )}
         </Box>
 
@@ -53,7 +55,7 @@ const Header = () => {
           <Link as={NextLink} href='/cart'>
             <Button variant="ghost" position="relative">
               <Icon as={FaShoppingCart} w={6} h={6} />
-              {totalItems > 0 && (
+              {uniqueItemsCount > 0 && (
                 <Badge
                   colorScheme="red"
                   borderRadius="full"
@@ -62,7 +64,7 @@ const Header = () => {
                   top="-2px"
                   right="-2px"
                 >
-                  {totalItems}
+                  {uniqueItemsCount}
                 </Badge>
               )}
             </Button>
@@ -88,12 +90,14 @@ const Header = () => {
               <Link as={NextLink} href='/' _hover={{ textDecoration: 'none' }} onClick={onClose}>
                 <Button variant="ghost" w="100%">Inicio</Button>
               </Link>
-              {session ? (
+              <Link as={NextLink} href='/about' _hover={{ textDecoration: 'none' }} onClick={onClose}>
+                <Button variant="ghost" w="100%">Nosotros</Button>
+              </Link>
+              <Link as={NextLink} href='/contact' _hover={{ textDecoration: 'none' }} onClick={onClose}>
+                <Button variant="ghost" w="100%">Contacto</Button>
+              </Link>
+              {session && (
                 <Button variant="ghost" onClick={() => { logout(); onClose(); }} w="100%">Cerrar Sesión</Button>
-              ) : (
-                <Link as={NextLink} href='/admin' _hover={{ textDecoration: 'none' }} onClick={onClose}>
-                  <Button variant="ghost" w="100%">Admin</Button>
-                </Link>
               )}
             </VStack>
           </DrawerBody>
