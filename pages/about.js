@@ -64,7 +64,7 @@ const AboutPage = () => {
             </Box>
             <Box flex={1}>
               <Image 
-                src="https://images.unsplash.com/photo-1552387970-21b12fe4a7fe?q=80&w=2370&auto=format&fit=crop" 
+                src="https://aagjnwmkcudxsojjfqzm.supabase.co/storage/v1/object/sign/utils/pngwing.com.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MDFkOTFlYS1jY2E0LTRmZTUtYjI4Yy1kNTJiOTRkYzNkZDEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ1dGlscy9wbmd3aW5nLmNvbS5wbmciLCJpYXQiOjE3NTI3Njc2MzIsImV4cCI6MTc4NDMwMzYzMn0.cok8eUA1Vv69wKQZEHvtORU2n5jA5wMAz-XGkYajDcU" 
                 alt="Equipo Mapache en acción"
                 borderRadius="lg"
                 boxShadow="xl"
