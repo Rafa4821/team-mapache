@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Box, Heading, SimpleGrid, Button, HStack } from '@chakra-ui/react';
+import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
 import Layout from '../components/layout/Layout';
 import ProductCard from '../components/ui/ProductCard';
+import CategoryCarousel from '../components/ui/CategoryCarousel';
 import { createSupabaseClient } from '../lib/supabaseClient';
 
 export default function HomePage({ products, categories }) {
@@ -19,17 +20,13 @@ export default function HomePage({ products, categories }) {
         Nuestros Dibujos
       </Heading>
 
-      <HStack spacing={4} justify="center" mb={8} wrap="wrap">
-        {displayCategories.map(category => (
-          <Button 
-            key={category} 
-            colorScheme={filter === category ? 'red' : 'gray'}
-            onClick={() => setFilter(category)}
-          >
-            {category}
-          </Button>
-        ))}
-      </HStack>
+      <Box mb={8}>
+        <CategoryCarousel 
+          categories={displayCategories}
+          activeCategory={filter}
+          onSelectCategory={setFilter}
+        />
+      </Box>
 
       <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={10}>
         {filteredProducts.map(product => (

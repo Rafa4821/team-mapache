@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Box, Heading, Input, Button, VStack, HStack, Text, IconButton, useToast } from '@chakra-ui/react';
+import { Box, Heading, Input, Button, VStack, HStack, Text, IconButton, useToast, Flex } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 
 export default function CategoryManager() {
@@ -68,14 +68,14 @@ export default function CategoryManager() {
       <Heading as="h2" size="lg" mb={6}>Gestionar Categorías</Heading>
       <VStack spacing={4} align="stretch">
         <Box as="form" onSubmit={handleAddCategory}>
-          <HStack>
+          <Flex direction={{ base: 'column', sm: 'row' }} gap={4}>
             <Input 
               placeholder="Nombre de la nueva categoría" 
               value={newCategoryName}
               onChange={(e) => setNewCategoryName(e.target.value)}
             />
-            <Button type="submit" colorScheme="red" isLoading={loading}>Añadir</Button>
-          </HStack>
+            <Button type="submit" colorScheme="red" isLoading={loading} width={{ base: '100%', sm: 'auto' }}>Añadir</Button>
+          </Flex>
         </Box>
         <VStack align="stretch" borderWidth="1px" borderRadius="lg" p={4}>
           {categories.length > 0 ? (

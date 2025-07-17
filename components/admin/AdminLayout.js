@@ -1,7 +1,7 @@
-import { Box, Flex, Icon, Link, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Icon, Link, Text, VStack, IconButton, Drawer, DrawerContent, useDisclosure, DrawerOverlay, DrawerCloseButton, DrawerHeader, DrawerBody } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { FiShoppingBag, FiFileText, FiGrid, FiClipboard } from 'react-icons/fi';
+import { FiShoppingBag, FiFileText, FiGrid, FiClipboard, FiMenu } from 'react-icons/fi';
 
 const NavItem = ({ icon, href, children }) => {
   const router = useRouter();
@@ -37,32 +37,77 @@ const NavItem = ({ icon, href, children }) => {
   );
 };
 
+const SidebarContent = ({ ...rest }) => (
+  <Box
+    bg="white"
+    borderRight="1px"
+    borderColor="gray.200"
+    w={{ base: 'full', md: 60 }}
+    h="full"
+    {...rest}
+  >
+    <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+      <Text fontSize="2xl" fontWeight="bold">
+        Tu Tienda
+      </Text>
+    </Flex>
+    <VStack align="stretch" spacing={1}>
+      <NavItem icon={FiShoppingBag} href="/admin/products">Productos</NavItem>
+      <NavItem icon={FiFileText} href="/admin/orders">Pedidos</NavItem>
+      <NavItem icon={FiGrid} href="/admin/categories">Categorías</NavItem>
+      <NavItem icon={FiClipboard} href="/admin/stock-control">Control de Stock</NavItem>
+    </VStack>
+  </Box>
+);
+
+const MobileNav = ({ onOpen, ...rest }) => (
+  <Flex
+    ml={{ base: 0, md: 60 }}
+    px={{ base: 4, md: 24 }}
+    height="20"
+    alignItems="center"
+    bg="white"
+    borderBottomWidth="1px"
+    borderBottomColor="gray.200"
+    justifyContent="flex-start"
+    {...rest}
+  >
+    <IconButton
+      variant="outline"
+      onClick={onOpen}
+      aria-label="open menu"
+      icon={<FiMenu />}
+      display={{ base: 'flex', md: 'none' }}
+    />
+    <Text fontSize="2xl" ml="8" fontWeight="bold" display={{ base: 'flex', md: 'none' }}>
+      Tu Tienda
+    </Text>
+  </Flex>
+);
+
 const AdminLayout = ({ children }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Flex>
-      <Box
-        bg="white"
-        borderRight="1px"
-        borderColor="gray.200"
-        w={{ base: 'full', md: 60 }}
-        h="100vh"
-        position="fixed"
-        zIndex={1}
+        <Flex minH="100vh" bg="white">
+      <SidebarContent display={{ base: 'none', md: 'block' }} />
+      <Drawer
+        isOpen={isOpen}
+        placement="left"
+        onClose={onClose}
+        returnFocusOnClose={false}
+        onOverlayClick={onClose}
+        size="full"
       >
-        <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-            <Text fontSize="2xl" fontWeight="bold">
-                Tu Tienda
-            </Text>
-        </Flex>
-        <VStack align="stretch" spacing={1}>
-          <NavItem icon={FiShoppingBag} href="/admin/products">Productos</NavItem>
-          <NavItem icon={FiFileText} href="/admin/orders">Pedidos</NavItem>
-          <NavItem icon={FiGrid} href="/admin/categories">Categorías</NavItem>
-          <NavItem icon={FiClipboard} href="/admin/stock-control">Control de Stock</NavItem>
-        </VStack>
-      </Box>
-      <Box ml={{ base: 0, md: 60 }} p="8" w="full">
-        {children}
+        <DrawerContent>
+          <SidebarContent />
+        </DrawerContent>
+      </Drawer>
+      
+      <Box flex="1">
+        <MobileNav onOpen={onOpen} />
+        <Box p={{ base: 4, md: 8 }}>
+          {children}
+        </Box>
       </Box>
     </Flex>
   );

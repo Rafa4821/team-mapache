@@ -1,5 +1,6 @@
-import { Table, Thead, Tbody, Tr, Th, Td, Badge, Text, NumberInput, NumberInputField, Button, useToast, HStack } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, Td, Badge, Text, NumberInput, NumberInputField, Button, useToast, HStack, useBreakpointValue, VStack } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
+import StockCard from './StockCard';
 
 const getStatusBadge = (stock, minStock) => {
     if (stock === 0) {
@@ -80,8 +81,20 @@ const StockRow = ({ product }) => {
 }
 
 const StockControlList = ({ products }) => {
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   if (!products || products.length === 0) {
     return <Text>No se encontraron productos.</Text>;
+  }
+
+  if (isMobile) {
+    return (
+      <VStack spacing={4} align="stretch">
+        {products.map((product) => (
+          <StockCard key={product.id} product={product} getStatusBadge={getStatusBadge} />
+        ))}
+      </VStack>
+    );
   }
 
   return (

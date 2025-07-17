@@ -1,4 +1,4 @@
-import { Box, Heading, Input, Select, HStack } from '@chakra-ui/react';
+import { Box, Heading, Input, Select, Flex } from '@chakra-ui/react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import OrderList from '../../components/admin/OrderList';
 import { useRouter } from 'next/router';
@@ -56,7 +56,7 @@ const AdminOrdersPage = ({ orders, initialSearch, initialStatus }) => {
           Gestión de Pedidos
         </Heading>
         
-        <HStack spacing={4} mb={6}>
+        <Flex direction={{ base: 'column', md: 'row' }} gap={4} mb={6}>
           <Input 
             placeholder="Buscar por nombre de cliente..."
             value={searchTerm}
@@ -70,7 +70,7 @@ const AdminOrdersPage = ({ orders, initialSearch, initialStatus }) => {
             <option value="completed">Completado</option>
             <option value="cancelled">Cancelado</option>
           </Select>
-        </HStack>
+        </Flex>
 
         <OrderList orders={orders} />
       </Box>

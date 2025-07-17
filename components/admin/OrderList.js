@@ -1,6 +1,7 @@
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Text, VStack, IconButton, Collapse, useDisclosure, Select, useToast } from '@chakra-ui/react';
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Text, VStack, IconButton, Collapse, useDisclosure, Select, useToast, useBreakpointValue } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
+import OrderCard from './OrderCard';
 
 const StatusUpdater = ({ orderId, currentStatus }) => {
   const [status, setStatus] = useState(currentStatus);
@@ -104,8 +105,20 @@ const OrderRow = ({ order }) => {
 };
 
 const OrderList = ({ orders }) => {
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   if (!orders || orders.length === 0) {
     return <Text>No se han encontrado pedidos.</Text>;
+  }
+
+  if (isMobile) {
+    return (
+      <VStack spacing={4} align="stretch">
+        {orders.map((order) => (
+          <OrderCard key={order.id} order={order} StatusUpdaterComponent={StatusUpdater} />
+        ))}
+      </VStack>
+    );
   }
 
   return (

@@ -1,0 +1,29 @@
+/* Estilos para asegurar que el carrusel se vea bien con Chakra UI */
+.slick-slider {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Cambiar el color de las flechas a negro */
+.slick-prev:before,
+.slick-next:before {
+    color: black !important; /* Usamos !important para asegurar que sobreescriba los estilos por defecto */
+}
+
+/* Ajustes opcionales para la posición de las flechas */
+.slick-prev {
+    left: -20px; /* Mover la flecha izquierda un poco hacia afuera */
+}
+
+.slick-next {
+    right: -20px; /* Mover la flecha derecha un poco hacia afuera */
+}
